@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--setings 可以设置多种运行时行为-->
+    <settings>
+        <!--启动驼峰命名规则
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        -->
+        <!--mybaits默认为OTHER,在Oracle1中没有OTHER-->
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    </settings>
+    <!--给实体类起别名,方便使用-->
+    <typeAliases>
+        <typeAlias type="com.mybatis.role.Student" alias="student"></typeAlias>
+    </typeAliases>
+    <!--default指明当前项目所使用环境-->
+    <environments default="development">
+        <!--项目开发数据库环境(mysel or oracle)-->
+        <environment id="development">
+            <!--事务管理器类型为JDBC-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--数据库连接使用连接池-->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis?characterEncoding=UTF-8"/>
+                <property name="username" value="root"/>
+                <property name="password" value="tyf0920"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--引入映射文件-->
+    <mappers>
+        <mapper resource="com/mybatis/map/student_map.xml"/>
+    </mappers>
+</configuration>

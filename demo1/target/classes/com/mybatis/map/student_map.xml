@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.map.StudentMapper">
+    <!--插入记录-->
+    <insert id="insertStudent" parameterType="student">
+        insert into student(student_name,student_age,student_gender) values (#{student_name},#{student_age},#{student_gender})
+    </insert>
+
+    <!--删除记录-->
+    <delete id="deleteStudent" parameterType="int">
+        delete from student where id=#{id}
+    </delete>
+    <!--自定义结果集
+   resultMap id :resultmap的唯一标识,方便引用
+    -->
+    <resultMap id="my_student" type="com.mybatis.role.Student">
+        <id column="id" property="id"/>
+        <result column="student_name" property="studentName"/>
+        <result column="student_age" property="student_age"/>
+        <result column="student_gender" property="student_gender"/>
+    </resultMap>
+    <!--查找一条记录-->
+    <select id="searchStudent" parameterType="int" resultMap="my_student">
+        select * from student where id=#{id}
+    </select>
+
+    <!--学生列表-->
+    <select id="studentList" resultType="student">
+        select * from student
+    </select>
+
+    <!--将学生信息以map返回-->
+    <select id="studentMap" resultType="student">
+        select * from student
+    </select>
+
+    <!--查询学生信息和成绩-->
+    <resultMap id="student" type="com.mybatis.role.Student">
+        <id column="id" property="id"/>
+        <result column="student_name" property="studentName"/>
+        <result column="student_gender" property="student_gender"/>
+        <result column="student_age" property="student_age"/>
+        <association property="score" javaType="com.mybatis.role.Score">
+            <id column="Id" property="Id"/>
+            <result column="english" property="english"/>
+            <result column="math" property="math"/>
+        </association>
+    </resultMap>
+    <select id="searchStudentAndScore" resultMap="student">
+
+SELECT st.student_name student_name,st.student_gender student_gender,st.student_age student_age,
+sc.Id Id,sc.english english,sc.math math
+FROM student st, score sc WHERE st.score_id=sc.Id and st.id=#{id}
+    </select>
+
+    <!--更新信息-->
+    <update id="updateStudent" parameterType="student">
+        update student set student_name=#{student_name} and student_age={student_age} where id=#{id}
+    </update>
+</mapper>

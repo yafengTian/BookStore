@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd"> 
+
+<configuration>
+    <typeAliases>  
+        <typeAlias alias="role" type="com.tyf.pojo.MyRole" />  
+    </typeAliases>
+    <environments default="development">  
+        <!-- 环境配置1，每个SqlSessionFactory对应一个环境 -->  
+        <environment id="development1">  
+            <!-- 事务配置 type= JDBC、MANAGED 1.JDBC:这个配置直接简单使用了JDBC的提交和回滚设置。它依赖于从数据源得到的连接来管理事务范围。   
+                2.MANAGED:这个配置几乎没做什么。它从来不提交或回滚一个连接。而它会让容器来管理事务的整个生命周期（比如Spring或JEE应用服务器的上下文）。   
+                默认情况下它会关闭连接。然而一些容器并不希望这样，因此如果你需要从连接中停止它，将closeConnection属性设置为false -->  
+            <transactionManager type="JDBC" >
+            <property name="autoCommit"  value="false"/>
+            </transactionManager>  
+        <!-- <transactionManager type="MANAGED">   
+                    <property name="closeConnection" value="false"/>   
+                 </transactionManager> -->  
+            <!-- 数据源类型：type = UNPOOLED、POOLED、JNDI 1.UNPOOLED：这个数据源的实现是每次被请求时简单打开和关闭连接。它有一点慢，这是对简单应用程序的一个很好的选择，因为它不需要及时的可用连接。   
+                不同的数据库对这个的表现也是不一样的，所以对某些数据库来说配置数据源并不重要，这个配置也是闲置的 2.POOLED：这是JDBC连接对象的数据源连接池的实现，用来避免创建新的连接实例时必要的初始连接和认证时间。   
+                这是一种当前Web应用程序用来快速响应请求很流行的方法。 3.JNDI：这个数据源的实现是为了使用如Spring或应用服务器这类的容器，容器可以集中或在外部配置数据源，然后放置一个JNDI上下文的引用 -->  
+            <dataSource type="POOLED">  
+                <property name="driver" value="com.mysql.jdbc.Driver" />  
+                <property name="url" value="jdbc:mysql://localhost:3306/mybatis" />  
+                <property name="username" value="root" />  
+                <property name="password" value="tyf0920" />  
+                <!-- 默认连接事务隔离级别 <property name="defaultTransactionIsolationLevel" value=""   
+                    /> -->  
+            </dataSource>  
+</environment>  
+</environments>
+ <!-- 映射文件，存放sql语句的配置文件 -->  
+    <mappers>  
+        <mapper resource="com/tyf/mapper/roleMapper.xml" />  
+    </mappers>  
+</configuration>
